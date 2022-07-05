@@ -32,12 +32,23 @@ add = (item) =>{
   console.log("items :", this.state.items)
 }
 
+delete = item =>{
+  const thisItems = this.state.items;
+  console.log("Before Update Items : ", this.state.items);
+  
+  const newItems = thisItems.filter(e => e.id !== item.id);
+
+  this.setState({ items: newItems}, () =>{
+    console.log("Updated Items : ",this.state.items);
+  })
+}
+
 render(){
   let todoItems = this.state.items.length > 0 && (
     <Paper style = {{margin : 16}}>
       <List>
         {this.state.items.map((item,idx)=>(
-          <Todo item={item} key={item.id}/>
+          <Todo item={item} key={item.id} delete={this.delete}/>
         ))}
       </List>
     </Paper>
@@ -46,7 +57,7 @@ render(){
   return (
   <div className='App'>
       <Container maxWidth="md">
-        <AddTodo />
+        <AddTodo add={this.add}/>
         <div className='TodoList'>{todoItems}</div>
       </Container>
   </div>
